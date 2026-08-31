@@ -1,0 +1,39 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: release-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      # dev cuts pre-releases (v1.5.0-rc.1); main cuts stable (v1.5.0).
+      # Both configs live on both branches; selection is by branch name at
+      # runtime, so merging dev -> main can't drag the prerelease flag along.
+      - id: vars
+        run: |
+          if [ "${{ github.ref_name }}" = "dev" ]; then
+            echo "config=release-please-config.dev.json"     >> "$GITHUB_OUTPUT"
+            echo "manifest=.release-please-manifest.dev.json" >> "$GITHUB_OUTPUT"
+          else
+            echo "config=release-please-config.json"         >> "$GITHUB_OUTPUT"
+            echo "manifest=.release-please-manifest.json"     >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target-branch: ${{ github.ref_name }}
+          config-file: ${{ steps.vars.outputs.config }}
+          manifest-file: ${{ steps.vars.outputs.manifest }}
