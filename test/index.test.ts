@@ -5,6 +5,14 @@ describe("greet", () => {
   it("greets by name", () => {
     expect(greet("world")).toBe("Hello, world!");
   });
+
+  it("trims surrounding whitespace", () => {
+    expect(greet("  world  ")).toBe("Hello, world!");
+  });
+
+  it("throws on a blank name", () => {
+    expect(() => greet("   ")).toThrow(/non-empty/);
+  });
 });
 
 describe("add", () => {
