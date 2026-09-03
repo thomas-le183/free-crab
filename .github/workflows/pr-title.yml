@@ -1,0 +1,52 @@
+name: pr-title
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  pr-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate PR title
+        env:
+          # Read via env, never interpolated into the script body: a PR title
+          # is attacker-controlled and would otherwise be shell injection.
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          set -uo pipefail
+
+          TYPES='feat|fix|perf|refactor|docs|test|chore|ci|build|revert'
+          PATTERN="^($TYPES)(\([a-z0-9-]+\))?!?: .+ \([A-Z][A-Z0-9]*-[0-9]+\)$"
+
+          # release-please opens its own PRs ("chore(dev): release 0.2.0-rc.1")
+          # and they carry no ticket. Same for the dev -> main promotion PR.
+          if printf '%s' "$TITLE" | grep -qE '^chore\(.+\): release '; then
+            echo "Release PR — skipping ticket check."
+            exit 0
+          fi
+          if printf '%s' "$TITLE" | grep -qE '^release: '; then
+            echo "Promotion PR — skipping ticket check."
+            exit 0
+          fi
+
+          if printf '%s' "$TITLE" | grep -qE "$PATTERN"; then
+            echo "OK: $TITLE"
+            exit 0
+          fi
+
+          cat >&2 <<MSG
+          PR title does not match the required format.
+
+            got:      $TITLE
+            expected: type(scope): description (PROJ-123)
+            example:  feat(billing): add bulk invoice export (PROJ-123)
+
+          type must be one of: $TYPES
+          scope is optional and lowercase; add ! before the colon for a breaking change.
+          The ticket ID is required, uppercase, in trailing parentheses.
+          MSG
+          exit 1
