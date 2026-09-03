@@ -21,4 +21,17 @@ describe("average", () => {
   it("throws on an empty list", () => {
     expect(() => average([])).toThrow(RangeError);
   });
+
+  it("throws on NaN", () => {
+    expect(() => average([1, NaN, 3])).toThrow(RangeError);
+  });
+
+  it("throws on an infinity", () => {
+    expect(() => average([1, Infinity])).toThrow(RangeError);
+    expect(() => average([1, -Infinity])).toThrow(RangeError);
+  });
+
+  it("names the offending index", () => {
+    expect(() => average([1, 2, NaN])).toThrow(/index 2/);
+  });
 });
