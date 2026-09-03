@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0-rc.2](https://github.com/thomas-le183/free-crab/compare/v0.3.0-rc.1...v0.3.0-rc.2) (2026-09-03)
+
+
+### 🐞 Bug Fixes
+
+* **average:** decrease plus number (PROJ-20) ([#13](https://github.com/thomas-le183/free-crab/issues/13)) ([043aae6](https://github.com/thomas-le183/free-crab/commit/043aae6eafb46a0247f70578f5ddcc48530c0928))
+
 ## [0.3.0-rc.1](https://github.com/thomas-le183/free-crab/compare/v0.3.0-rc...v0.3.0-rc.1) (2026-09-03)
 
 
