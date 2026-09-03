@@ -1,6 +1,6 @@
 {
   "name": "free-crab",
-  "version": "0.3.0-rc.2",
+  "version": "0.3.0-rc.3",
   "description": "Sandbox repo for practicing version control workflows.",
   "type": "module",
   "main": "dist/index.js",
