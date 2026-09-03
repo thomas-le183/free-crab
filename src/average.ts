@@ -9,3 +9,7 @@ export function average(values: readonly number[]): number {
   }
   return values.reduce((total, n) => total + n, 0) / values.length;
 }
+
+export function averageV2(values: readonly number[]):number {
+  return average(values)
+}
