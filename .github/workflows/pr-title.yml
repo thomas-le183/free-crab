@@ -20,21 +20,27 @@ jobs:
           set -uo pipefail
 
           TYPES='feat|fix|perf|refactor|docs|test|chore|ci|build|revert'
-          PATTERN="^($TYPES)(\([a-z0-9-]+\))?!?: .+ \([A-Z][A-Z0-9]*-[0-9]+\)$"
+          # chore is housekeeping — it carries no ticket and never reaches QC.
+          NO_TICKET_TYPES='chore'
+          TICKET='\([A-Z][A-Z0-9]*-[0-9]+\)'
 
-          # release-please opens its own PRs ("chore(dev): release 0.2.0-rc.1")
-          # and they carry no ticket. Same for the dev -> main promotion PR.
-          if printf '%s' "$TITLE" | grep -qE '^chore\(.+\): release '; then
-            echo "Release PR — skipping ticket check."
-            exit 0
-          fi
+          PATTERN="^($TYPES)(\([a-z0-9-]+\))?!?: .+ $TICKET$"
+          PATTERN_NO_TICKET="^($NO_TICKET_TYPES)(\([a-z0-9-]+\))?!?: .+$"
+
+          # The dev -> main promotion PR is titled "release: ..." — not a
+          # conventional type, so it needs its own skip. (release-please's own
+          # "chore(dev): release 0.2.0-rc.1" PRs pass as ticketless chores.)
           if printf '%s' "$TITLE" | grep -qE '^release: '; then
-            echo "Promotion PR — skipping ticket check."
+            echo "Promotion PR — skipping title check."
             exit 0
           fi
 
           if printf '%s' "$TITLE" | grep -qE "$PATTERN"; then
             echo "OK: $TITLE"
+            exit 0
+          fi
+          if printf '%s' "$TITLE" | grep -qE "$PATTERN_NO_TICKET"; then
+            echo "OK (ticketless type): $TITLE"
             exit 0
           fi
 
@@ -47,6 +53,7 @@ jobs:
 
           type must be one of: $TYPES
           scope is optional and lowercase; add ! before the colon for a breaking change.
-          The ticket ID is required, uppercase, in trailing parentheses.
+          The ticket ID is uppercase, in trailing parentheses. It is required for
+          every type except: $NO_TICKET_TYPES
           MSG
           exit 1
