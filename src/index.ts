@@ -19,6 +19,9 @@ export function multiply(a: number, b: number): number {
  * Throws if the range is inverted, since that is always a caller bug.
  */
 export function clamp(value: number, min: number, max: number): number {
+  if (Number.isNaN(min) || Number.isNaN(max)) {
+    throw new RangeError("clamp() bounds must not be NaN");
+  }
   if (min > max) {
     throw new RangeError(`min (${min}) must not exceed max (${max})`);
   }

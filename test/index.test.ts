@@ -52,4 +52,13 @@ describe("clamp", () => {
   it("throws when the range is inverted", () => {
     expect(() => clamp(5, 10, 0)).toThrow(RangeError);
   });
+
+  it("throws on a NaN bound", () => {
+    expect(() => clamp(5, NaN, 10)).toThrow(RangeError);
+    expect(() => clamp(5, 0, NaN)).toThrow(RangeError);
+  });
+
+  it("still propagates a NaN value", () => {
+    expect(clamp(NaN, 0, 10)).toBeNaN();
+  });
 });
