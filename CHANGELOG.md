@@ -1,17 +1,5 @@
 # Changelog
 
-## [1.0.0](https://github.com/thomas-le183/free-crab/compare/v0.3.0...v1.0.0) (2026-09-03)
-
-
-### ⚠ BREAKING CHANGES
-
-* **core:** averageV2 is gone. Call average() instead.
-
-### ✨ Features
-
-* **core:** add sum helper (PROJ-7) ([412ddb7](https://github.com/thomas-le183/free-crab/commit/412ddb73bcaa50dded378e2ddfe73c2789557774))
-* **core:** add sum helper (PROJ-7) ([412ddb7](https://github.com/thomas-le183/free-crab/commit/412ddb73bcaa50dded378e2ddfe73c2789557774))
-
 ## [1.0.0-rc](https://github.com/thomas-le183/free-crab/compare/v0.3.0...v1.0.0-rc) (2026-09-03)
 
 
