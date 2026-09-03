@@ -1,9 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { add, clamp, greet, multiply } from "../src/index.js";
 
+
 describe("greet", () => {
   it("greets by name", () => {
     expect(greet("world")).toBe("Hello, world!");
+  });
+
+  it("trims surrounding whitespace", () => {
+    expect(greet("  world  ")).toBe("Hello, world!");
+  });
+
+  it("throws on a blank name", () => {
+    expect(() => greet("   ")).toThrow(/non-empty/);
   });
 
   it("trims surrounding whitespace", () => {
