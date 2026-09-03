@@ -13,4 +13,15 @@ describe("sum", () => {
   it("handles negative values", () => {
     expect(sum([5, -3, -1])).toBe(1);
   });
+
+  it("does not mutate the input", () => {
+    const input = [1, 2, 3];
+    sum(input);
+    expect(input).toEqual([1, 2, 3]);
+  });
+
+  it("sums a large list", () => {
+    const values = Array.from({ length: 10_000 }, (_, i) => i + 1);
+    expect(sum(values)).toBe(50_005_000);
+  });
 });

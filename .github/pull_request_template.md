@@ -4,7 +4,10 @@
 
   type   feat | fix | perf | refactor | docs | test | chore | ci | build | revert
   scope  product area, lowercase — billing, auth, reports
-  ticket uppercase prefix + number
+  ticket uppercase prefix + number — required for every type except chore
+
+  chore is housekeeping (deps, tooling, releases) and needs no ticket:
+      chore(deps): bump typescript to 5.6
 
   Only feat / fix / perf / revert appear in release notes and reach QC.
 -->
