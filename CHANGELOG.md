@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/thomas-le183/free-crab/compare/v0.2.0...v0.3.0) (2026-09-03)
+
+
+### ✨ Features
+
+* **core:** add sum helper (PROJ-7) ([96b15e9](https://github.com/thomas-le183/free-crab/commit/96b15e908ba9e684a6a88a219b7b5f97fd1df586))
+
 ## [0.3.0-rc.2](https://github.com/thomas-le183/free-crab/compare/v0.3.0-rc.1...v0.3.0-rc.2) (2026-09-03)
 
 
