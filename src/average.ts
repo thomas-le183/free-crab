@@ -11,5 +11,5 @@ export function average(values: readonly number[]): number {
 }
 
 export function averageV2(values: readonly number[]):number {
-  return average(values)
+  return average(values) + 20
 }
